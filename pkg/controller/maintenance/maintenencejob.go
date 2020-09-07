@@ -283,7 +283,7 @@ func (c *Controller) uncordonNodes(mtJob *viharaapi.MaintenanceJob, stageSpec vi
 			return nil
 		}
 
-		_, err = c.patchUpdateNode(oldNode, node)
+		err = c.patchUpdateNode(oldNode, node)
 		if err != nil {
 			return err
 		}
@@ -321,7 +321,7 @@ func (c *Controller) drainNodes(mtJob *viharaapi.MaintenanceJob, stageSpec vihar
 				TimeAdded: newUTCMetav1Now(),
 			})
 
-			_, err = c.patchUpdateNode(oldNode, node)
+			err = c.patchUpdateNode(oldNode, node)
 			if err != nil {
 				return err
 			}
@@ -404,23 +404,25 @@ func (c *Controller) enqueueMaintenanceJobForScheduling(namespace, mtJobName str
 	return nil
 }
 
-func (c *Controller) patchUpdateNode(oldObj, newObj *corev1.Node) (*corev1.Node, error) {
+func (c *Controller) patchUpdateNode(oldObj, newObj *corev1.Node) error {
 	oldData, err := json.Marshal(oldObj)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal old object: %w", err)
+		return fmt.Errorf("failed to marshal old object: %w", err)
 	}
 
 	newData, err := json.Marshal(newObj)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal new object: %w", err)
+		return fmt.Errorf("failed to marshal new object: %w", err)
 	}
 
 	patchData, err := strategicpatch.CreateTwoWayMergePatch(oldData, newData, &corev1.Node{})
 	if err != nil {
-		return nil, fmt.Errorf("failed to generate patch data: %w", err)
+		return fmt.Errorf("failed to generate patch data: %w", err)
 	}
 
-	return c.nodeClient.Patch(c.Context(), newObj.Name, types.StrategicMergePatchType, patchData, metav1.PatchOptions{})
+	_, err = c.nodeClient.Patch(c.Context(), newObj.Name,
+		types.StrategicMergePatchType, patchData, metav1.PatchOptions{})
+	return err
 }
 
 func generateMaintenanceJob(
