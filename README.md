@@ -1,8 +1,8 @@
 # vihara `精舍`
 
 [![CI](https://github.com/arhat-dev/vihara/workflows/CI/badge.svg)](https://github.com/arhat-dev/vihara/actions?query=workflow%3ACI)
-[![GoDoc](https://godoc.org/arhat.dev/vihara?status.svg)](https://pkg.go.dev/arhat.dev/vihara)
-[![GoReportCard](https://goreportcard.com/badge/goiiot/libmqtt)](https://goreportcard.com/report/arhat.dev/vihara)
+[![PkgGoDev](https://pkg.go.dev/badge/arhat.dev/vihara)](https://pkg.go.dev/arhat.dev/vihara)
+[![GoReportCard](https://goreportcard.com/badge/arhat.dev/vihara)](https://goreportcard.com/report/arhat.dev/vihara)
 [![codecov](https://codecov.io/gh/arhat-dev/vihara/branch/master/graph/badge.svg)](https://codecov.io/gh/arhat-dev/vihara)
 
 Maintenance controller for kubernetes cluster
