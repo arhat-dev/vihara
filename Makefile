@@ -32,28 +32,28 @@ include scripts/test/unit.mk
 include scripts/test/e2e.mk
 
 # binary build
-include scripts/build/template-kubernetes-controller.mk
+include scripts/build/vihara.mk
 
 # image
-include scripts/image/template-kubernetes-controller.mk
+include scripts/image/vihara.mk
 
 image.build.linux.all: \
-	image.build.template-kubernetes-controller.linux.all
+	image.build.vihara.linux.all
 
 image.build.windows.all: \
-	image.build.template-kubernetes-controller.windows.all
+	image.build.vihara.windows.all
 
 image.push.linux.all: \
-	image.push.template-kubernetes-controller.linux.all
+	image.push.vihara.linux.all
 
 image.push.windows.all: \
-	image.push.template-kubernetes-controller.windows.all
+	image.push.vihara.windows.all
 
 # code/file generation
 include scripts/gen/code.mk
 include scripts/gen/manifest.mk
 
-include scripts/deploy/template-kubernetes-controller.mk
+include scripts/deploy/vihara.mk
 
 # optional private scripts
 -include private/scripts.mk

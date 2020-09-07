@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vihara.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vihara.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- .Values.config | toYaml | nindent 4 -}}

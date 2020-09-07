@@ -1,0 +1,171 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "vihara.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vihara.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+---
+{{- end }}
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "vihara.fullname" . }}:controller
+rules:
+# create events for maintenance resource objects
+- apiGroups: [""]
+  resources:
+  - events
+  verbs:
+  - create
+# get nodes to create maintenance jobs if taints tolerated
+- apiGroups: [""]
+  resources:
+  - nodes
+  verbs:
+  - list
+  - get
+  - watch
+# reconcile user created maintenance
+- apiGroups: ["vihara.arhat.dev"]
+  resources:
+  - maintenance
+  - maintenance/status
+  verbs:
+  - get
+  - patch
+  - update
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "vihara.fullname" . }}:controller:{{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "vihara.fullname" . }}:controller
+subjects:
+- kind: ServiceAccount
+  name: {{ include "vihara.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "vihara.fullname" . }}:controller
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups: [""]
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+{{- if (contains .Values.config.vihara.leaderElection.lock.type "configmaps") }}
+  - create
+  - update
+  - patch
+{{- end }}
+{{- if (contains .Values.config.vihara.leaderElection.lock.type "endpoints") }}
+- apiGroups: [""]
+  resources:
+  - endpoints
+  verbs:
+  - create
+  - get
+  - update
+  - patch
+  resourceNames:
+  - {{ .Values.config.vihara.leaderElection.lock.name | default "vihara-leader-election" }}
+{{- end }}
+{{- if (contains .Values.config.vihara.leaderElection.lock.type "leases") }}
+- apiGroups: ["coordination.k8s.io"]
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+  - patch
+  resourceNames:
+  - {{ .Values.config.vihara.leaderElection.lock.name | default "vihara-leader-election" }}
+{{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "vihara.fullname" . }}:jobs
+  namespace: {{ .Values.config.maintenance.jobs.namespace | default .Release.Namespace }}
+rules:
+# create events for maintenance jobs
+- apiGroups: [""]
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+# reconcile jobs for maintenance jobs
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  verbs:
+  - create
+  - list
+  - watch
+  - get
+- apiGroups: ["batch"]
+  resources:
+  - jobs/status
+  verbs:
+  - list
+  - watch
+  - get
+# reconcile maintenance jobs
+- apiGroups: ["vihara.arhat.dev"]
+  resources:
+  - maintenancejobs
+  - maintenancejobs/status
+  verbs:
+  - create
+  - patch
+  - update
+  - list
+  - watch
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "vihara.fullname" . }}:jobs
+  namespace: {{ .Values.config.maintenance.jobs.namespace | default .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "vihara.fullname" . }}:jobs
+subjects:
+- kind: ServiceAccount
+  name: {{ include "vihara.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "vihara.fullname" . }}:controller
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "vihara.fullname" . }}:controller
+subjects:
+- kind: ServiceAccount
+  name: {{ include "vihara.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}

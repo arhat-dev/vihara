@@ -387,6 +387,7 @@ github.com/kubernetes/kube-proxy v0.18.8/go.mod h1:u4E8OsUpUzfZ9CEFf9rdLsbYiusZr
 github.com/kubernetes/kube-scheduler v0.18.8/go.mod h1:OeliYiILv1XkSq0nmQjRewgt5NimKsTidZFEhfL5fqA=
 github.com/kubernetes/kubectl v0.18.8/go.mod h1:PlEgIAjOMua4hDFTEkVf+W5M0asHUKfE4y7VDZkpLHM=
 github.com/kubernetes/kubelet v0.18.8/go.mod h1:6z1jHCk0NPE6WshFStfqcgQ1bnD3tetcPmhC2915aio=
+github.com/kubernetes/kubernetes v1.18.8 h1:wpG4RPPyuNRgQ/L8yEAHrsH1FKprqE8vPNLf92T9BGk=
 github.com/kubernetes/kubernetes v1.18.8/go.mod h1:SU7bBi8ZNHRjqzNhY4U78gClS1O7Q7avCrfF5aSiDko=
 github.com/kubernetes/legacy-cloud-providers v0.18.8/go.mod h1:tgp4xYf6lvjrWnjQwTOPvWQE9IVqSBGPF4on0IyICQE=
 github.com/kubernetes/metrics v0.18.8/go.mod h1:j7JzZdiyhLP2BsJm/Fzjs+j5Lb1Y7TySjhPWqBPwRXA=

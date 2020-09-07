@@ -29,7 +29,7 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 
-	"arhat.dev/template-kubernetes-controller/pkg/constant"
+	"arhat.dev/vihara/pkg/constant"
 )
 
 type Config interface {

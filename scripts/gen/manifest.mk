@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-gen.manifests.template-kubernetes-controller:
+gen.manifests.vihara:
 	helm template \
-		template-kubernetes-controller \
-		cicd/deploy/charts/template-kubernetes-controller \
+		vihara \
+		cicd/deploy/charts/vihara \
 		--include-crds --namespace ${NS} --debug \
-		| tee cicd/deploy/kube/template-kubernetes-controller.yaml
+		| tee cicd/deploy/kube/vihara.yaml

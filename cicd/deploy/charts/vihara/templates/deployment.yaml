@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vihara.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vihara.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "vihara.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "vihara.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "vihara.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "vihara.fullname" . }}
+      containers:
+        - name: vihara
+          command:
+            - /vihara
+            - -c
+            - /etc/vihara/config.yaml
+          env:
+            - name: GODEBUG
+              value: madvdontneed=1
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+            - name: JOB_NAMESPACE
+              {{- if .Values.config.maintenance.jobs.namespace }}
+              value: {{ .Values.config.maintenance.jobs.namespace }}
+              {{- else }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+              {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/vihara/config.yaml
+              subPath: config.yaml
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if and .Values.config.vihara.metrics.enabled (ne (include "vihara.metricsPort" .) "0") }}
+          ports:
+            - name: metrics
+              containerPort: {{ include "vihara.metricsPort" . }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.config.vihara.metrics.httpPath | default "/metrics" }}
+              port: metrics
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.config.vihara.metrics.httpPath | default "/metrics" }}
+              port: metrics
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

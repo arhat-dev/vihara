@@ -17,5 +17,5 @@ install.codegen:
 	sh scripts/gen/codegen.sh install_deepcopy_gen
 
 # gen.code.<api group name>.<api group version>
-gen.code.samplecrd.v1alpha1:
+gen.code.vihara.v1alpha1:
 	sh scripts/gen/codegen.sh gen $@

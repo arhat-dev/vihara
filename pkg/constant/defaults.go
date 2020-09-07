@@ -17,5 +17,6 @@ limitations under the License.
 package constant
 
 const (
-	DefaultTemplateKubernetesControllerConfigFile = "/etc/template-kubernetes-controller/config.yaml"
+	// vihara defaults
+	DefaultViharaConfigFile = "/etc/vihara/config.yaml"
 )

@@ -1,0 +1,96 @@
+# Default values for vihara.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+
+imagePullSecrets: []
+image:
+  repository: docker.io/arhatdev/vihara
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "amd64"
+
+podAnnotations: {}
+podSecurityContext: {}
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+rbac:
+  create: true
+
+serviceMonitor:
+  create: false
+
+config:
+  vihara:
+    log:
+    - level: verbose
+      format: console
+      file: stderr
+
+    metrics:
+      enabled: true
+      listen: :0
+      httpPath: /metrics
+
+    leaderElection:
+      # default to the pod name
+      #identity: ""
+
+      # lease options
+      lease:
+        expiration: 30s
+        renewDeadline: 29s
+        renewInterval: 5s
+        expiryToleration: 10s
+
+      # lock options
+      lock:
+        # default to vihara-leader-election
+        #name:
+        type: configmaps
+        # default to pod namespace
+        #namespace:
+
+    kubeClient:
+      # kubeconfig file path, will fallback to in cluster config if not specified
+      #kubeconfig: ""
+      rateLimit:
+        enabled: true
+        qps: 5
+        burst: 10
+
+  maintenance:
+    jobs:
+      # leave namespace empty to use JOB_NAMESPACE env
+      namespace: ""

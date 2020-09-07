@@ -5,18 +5,18 @@
   - make e2e.v1-17
   - make e2e.v1-18
 
-test:e2e:linux:template-kubernetes-controller:
+test:e2e:linux:vihara:
   extends: .test.e2e
   tags:
   - linux
   - baremetal
   dependencies:
-  - build:image:linux:template-kubernetes-controller
+  - build:image:linux:vihara
 
-# test:e2e:windows:template-kubernetes-controller:
+# test:e2e:windows:vihara:
 #   extends: .test.e2e
 #   tags:
 #   - windows
 #   - baremetal
 #   dependencies:
-#   - build:image:windows:template-kubernetes-controller
+#   - build:image:windows:vihara

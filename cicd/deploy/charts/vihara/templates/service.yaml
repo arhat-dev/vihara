@@ -1,0 +1,20 @@
+{{- if .Values.config.vihara.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vihara.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: metrics
+    {{- include "vihara.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 9876
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+  selector:
+    {{- include "vihara.selectorLabels" . | nindent 4 }}
+{{- end }}

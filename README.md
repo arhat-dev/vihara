@@ -1,22 +1,11 @@
-# Template Kubernetes Controller
+# vihara `精舍`
 
-[![CI](https://github.com/arhat-dev/template-kubernetes-controller/workflows/CI/badge.svg)](https://github.com/arhat-dev/template-kubernetes-controller/actions?query=workflow%3ACI)
-[![GoDoc](https://godoc.org/arhat.dev/template-kubernetes-controller?status.svg)](https://pkg.go.dev/arhat.dev/template-kubernetes-controller)
-[![GoReportCard](https://goreportcard.com/badge/goiiot/libmqtt)](https://goreportcard.com/report/arhat.dev/template-kubernetes-controller)
-[![codecov](https://codecov.io/gh/arhat-dev/template-kubernetes-controller/branch/master/graph/badge.svg)](https://codecov.io/gh/arhat-dev/template-kubernetes-controller)
+[![CI](https://github.com/arhat-dev/vihara/workflows/CI/badge.svg)](https://github.com/arhat-dev/vihara/actions?query=workflow%3ACI)
+[![GoDoc](https://godoc.org/arhat.dev/vihara?status.svg)](https://pkg.go.dev/arhat.dev/vihara)
+[![GoReportCard](https://goreportcard.com/badge/goiiot/libmqtt)](https://goreportcard.com/report/arhat.dev/vihara)
+[![codecov](https://codecov.io/gh/arhat-dev/vihara/branch/master/graph/badge.svg)](https://codecov.io/gh/arhat-dev/vihara)
 
-Template for a kubernetes controller
-
-## Make Targets
-
-- binary build: `<comp>.{OS}.{ARCH}`
-- image build: `image.build.<comp>.{OS}.{ARCH}`
-- image push: `image.push.<comp>.{OS}.{ARCH}`
-- unit tests: `test.pkg`, `test.cmd`
-- e2e tests: `e2e.v1-16`, `e2e.v1-17`, `e2e.v1-18`
-- code generation:
-  - generate CRD: `gen.code.<crd group>.<crd version>` (to install required tools: `install.codegen`)
-  - generate manifests: `gen.manifests.<comp>`
+Maintenance controller for kubernetes cluster
 
 ## LICENSE
 

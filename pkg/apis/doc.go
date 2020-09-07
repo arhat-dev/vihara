@@ -15,4 +15,4 @@ limitations under the License.
 */
 
 // Package apis
-package apis
+package apis // import "arhat.dev/vihara/pkg/apis"
