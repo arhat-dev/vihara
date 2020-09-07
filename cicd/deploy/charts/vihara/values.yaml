@@ -12,7 +12,7 @@ image:
   repository: docker.io/arhatdev/vihara
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "amd64"
+  tag: latest
 
 podAnnotations: {}
 podSecurityContext: {}
