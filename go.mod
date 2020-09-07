@@ -28,6 +28,7 @@ replace (
 	k8s.io/metrics => github.com/kubernetes/metrics v0.18.8
 	k8s.io/sample-apiserver => github.com/kubernetes/sample-apiserver v0.18.8
 	k8s.io/utils => github.com/kubernetes/utils v0.0.0-20200821003339-5e75c0163111
+	vbom.ml/util => github.com/fvbommel/util v0.0.2
 )
 
 require (
