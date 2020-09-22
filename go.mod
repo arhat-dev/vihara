@@ -32,7 +32,7 @@ replace (
 )
 
 require (
-	arhat.dev/pkg v0.0.0-20200814094720-eac4d5d5680b
+	arhat.dev/pkg v0.0.0-20200922193124-416462163776
 	github.com/spf13/cobra v1.0.0
 	gopkg.in/yaml.v2 v2.2.8
 	k8s.io/api v0.18.8
