@@ -22,17 +22,17 @@ import (
 	"os"
 	"time"
 
-	"arhat.dev/vihara/cmd/vihara/pkg"
+	"arhat.dev/vihara/pkg/cmd"
 	"arhat.dev/vihara/pkg/version"
 )
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
-	cmd := pkg.NewViharaCmd()
-	cmd.AddCommand(version.NewVersionCmd())
+	rootCmd := cmd.NewViharaCmd()
+	rootCmd.AddCommand(version.NewVersionCmd())
 
-	err := cmd.Execute()
+	err := rootCmd.Execute()
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "failed to run vihara %v: %v\n", os.Args, err)
 		os.Exit(1)
