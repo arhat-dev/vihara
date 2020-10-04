@@ -13354,7 +13354,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "docker.io/arhatdev/vihara:amd64"
+          image: "docker.io/arhatdev/vihara:latest"
           imagePullPolicy: Always
           resources:
             {}
