@@ -19,6 +19,9 @@ image.build.vihara.linux.x86:
 image.build.vihara.linux.amd64:
 	sh scripts/image/build.sh $@
 
+image.build.vihara.linux.armv5:
+	sh scripts/image/build.sh $@
+
 image.build.vihara.linux.armv6:
 	sh scripts/image/build.sh $@
 
@@ -31,6 +34,9 @@ image.build.vihara.linux.arm64:
 image.build.vihara.linux.ppc64le:
 	sh scripts/image/build.sh $@
 
+image.build.vihara.linux.mips64le:
+	sh scripts/image/build.sh $@
+
 image.build.vihara.linux.s390x:
 	sh scripts/image/build.sh $@
 
@@ -39,9 +45,11 @@ image.build.vihara.linux.all: \
 	image.build.vihara.linux.arm64 \
 	image.build.vihara.linux.armv7 \
 	image.build.vihara.linux.armv6 \
+	image.build.vihara.linux.armv5 \
 	image.build.vihara.linux.x86 \
 	image.build.vihara.linux.s390x \
-	image.build.vihara.linux.ppc64le
+	image.build.vihara.linux.ppc64le \
+	image.build.vihara.linux.mips64le
 
 image.build.vihara.windows.amd64:
 	sh scripts/image/build.sh $@
@@ -60,6 +68,9 @@ image.push.vihara.linux.x86:
 image.push.vihara.linux.amd64:
 	sh scripts/image/push.sh $@
 
+image.push.vihara.linux.armv5:
+	sh scripts/image/push.sh $@
+
 image.push.vihara.linux.armv6:
 	sh scripts/image/push.sh $@
 
@@ -72,6 +83,9 @@ image.push.vihara.linux.arm64:
 image.push.vihara.linux.ppc64le:
 	sh scripts/image/push.sh $@
 
+image.push.vihara.linux.mips64le:
+	sh scripts/image/push.sh $@
+
 image.push.vihara.linux.s390x:
 	sh scripts/image/push.sh $@
 
@@ -80,9 +94,11 @@ image.push.vihara.linux.all: \
 	image.push.vihara.linux.arm64 \
 	image.push.vihara.linux.armv7 \
 	image.push.vihara.linux.armv6 \
+	image.push.vihara.linux.armv5 \
 	image.push.vihara.linux.x86 \
 	image.push.vihara.linux.s390x \
-	image.push.vihara.linux.ppc64le
+	image.push.vihara.linux.ppc64le \
+	image.push.vihara.linux.mips64le
 
 image.push.vihara.windows.amd64:
 	sh scripts/image/push.sh $@

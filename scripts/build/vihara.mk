@@ -29,10 +29,16 @@ vihara.linux.armv7:
 vihara.linux.armv6:
 	sh scripts/build/build.sh $@
 
+vihara.linux.armv5:
+	sh scripts/build/build.sh $@
+
 vihara.linux.x86:
 	sh scripts/build/build.sh $@
 
 vihara.linux.ppc64le:
+	sh scripts/build/build.sh $@
+
+vihara.linux.mips64le:
 	sh scripts/build/build.sh $@
 
 vihara.linux.s390x:
@@ -43,8 +49,10 @@ vihara.linux.all: \
 	vihara.linux.arm64 \
 	vihara.linux.armv7 \
 	vihara.linux.armv6 \
+	vihara.linux.armv5 \
 	vihara.linux.x86 \
 	vihara.linux.ppc64le \
+	vihara.linux.mips64le \
 	vihara.linux.s390x
 
 # windows
