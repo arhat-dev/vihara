@@ -1,6 +1,20 @@
 apiVersion: v2
 name: vihara
-description: Maintenance Controller Deployment
+description: Maintenance controller for kubernetes
 type: application
+maintainers:
+- name: arhat-dev
+  email: dev@arhat.dev
+keywords:
+- vihara
+- maintenance
+- job
+- node
+- kubernetes
+# icon:
+home: https://github.com/arhat-dev/vihara
+sources:
+- https://github.com/arhat-dev/vihara
+- https://github.com/arhat-dev/helm-charts
 version: 0.1.0
 appVersion: latest
