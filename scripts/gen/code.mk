@@ -19,3 +19,6 @@ install.codegen:
 # gen.code.<api group name>.<api group version>
 gen.code.vihara.v1alpha1:
 	sh scripts/gen/codegen.sh gen $@
+
+gen.code.all: \
+	gen.code.vihara.v1alpha1

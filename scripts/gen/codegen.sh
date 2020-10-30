@@ -69,6 +69,7 @@ _do_gen_clients() {
     "arhat.dev/vihara/pkg/apis/${group_name}/generated" \
     arhat.dev/vihara/pkg/apis "${group_name}:${group_version}" \
     --go-header-file "$(pwd)/scripts/gen/boilerplate.go.txt" \
+    --plural-exceptions "Maintenance:Maintenance" \
     -v 2 2>&1 | tee build/gen_clients.log | grep -E -e '(Assembling)|(violation)'
 
   rm -rf "./pkg/apis/${group_name}/generated"
