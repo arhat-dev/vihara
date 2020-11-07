@@ -32,12 +32,12 @@ replace (
 )
 
 require (
-	arhat.dev/pkg v0.0.0-20201011023427-3d85bac95f31
+	arhat.dev/pkg v0.2.11
 	github.com/spf13/cobra v1.1.1
 	gopkg.in/yaml.v2 v2.3.0
 	k8s.io/api v0.18.10
 	k8s.io/apimachinery v0.18.10
 	k8s.io/client-go v0.18.10
 	k8s.io/kubernetes v1.18.10
-	k8s.io/utils v0.0.0-20201027101359-01387209bb0d // indirect
+	k8s.io/utils v0.0.0-20201104234853-8146046b121e // indirect
 )
