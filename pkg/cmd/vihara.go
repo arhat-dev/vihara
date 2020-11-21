@@ -22,8 +22,8 @@ import (
 	"os"
 	"time"
 
-	"arhat.dev/pkg/confhelper"
 	"arhat.dev/pkg/envhelper"
+	"arhat.dev/pkg/kubehelper"
 	"arhat.dev/pkg/log"
 	"github.com/spf13/cobra"
 	corev1 "k8s.io/api/core/v1"
@@ -71,7 +71,7 @@ func NewViharaCmd() *cobra.Command {
 	// config file
 	flags.StringVarP(&configFile, "config", "c", constant.DefaultViharaConfigFile, "path to the vihara config file")
 	// vihara
-	flags.AddFlagSet(confhelper.FlagsForControllerConfig("vihara", "", cliLogConfig, &config.Vihara.ControllerConfig))
+	flags.AddFlagSet(kubehelper.FlagsForControllerConfig("vihara", "", cliLogConfig, &config.Vihara.ControllerConfig))
 
 	flags.DurationVar(&config.Maintenance.Schedule.PollInterval, "mt.schedule.pollInterval", 5*time.Second, "")
 	flags.DurationVar(&config.Maintenance.Schedule.DefaultDelay, "mt.schedule.defaultDelay", time.Second, "")

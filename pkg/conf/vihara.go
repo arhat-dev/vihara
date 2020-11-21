@@ -19,7 +19,7 @@ package conf
 import (
 	"time"
 
-	"arhat.dev/pkg/confhelper"
+	"arhat.dev/pkg/kubehelper"
 	"arhat.dev/pkg/log"
 )
 
@@ -29,7 +29,7 @@ type ViharaConfig struct {
 }
 
 type ViharaAppConfig struct {
-	confhelper.ControllerConfig `json:",inline" yaml:",inline"`
+	kubehelper.ControllerConfig `json:",inline" yaml:",inline"`
 }
 
 func (c *ViharaConfig) GetLogConfig() log.ConfigSet {
