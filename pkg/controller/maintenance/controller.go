@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"arhat.dev/pkg/kubehelper"
 	"arhat.dev/pkg/log"
 	"arhat.dev/pkg/queue"
 	"arhat.dev/pkg/reconcile"
@@ -88,7 +89,7 @@ func NewController(appCtx context.Context, config *conf.ViharaConfig) (*Controll
 		ctrl.jobInformer.HasSynced,
 	}
 
-	ctrl.mtRec = reconcile.NewKubeInformerReconciler(appCtx, ctrl.mtInformer, reconcile.Options{
+	ctrl.mtRec = kubehelper.NewKubeInformerReconciler(appCtx, ctrl.mtInformer, reconcile.Options{
 		Logger:          ctrl.Log.WithName("rec:mt"),
 		BackoffStrategy: nil,
 		Workers:         0,
@@ -101,7 +102,7 @@ func NewController(appCtx context.Context, config *conf.ViharaConfig) (*Controll
 		},
 	})
 
-	ctrl.mtJobRec = reconcile.NewKubeInformerReconciler(appCtx, ctrl.mtJobInformer, reconcile.Options{
+	ctrl.mtJobRec = kubehelper.NewKubeInformerReconciler(appCtx, ctrl.mtJobInformer, reconcile.Options{
 		Logger:          ctrl.Log.WithName("rec:mt-job"),
 		BackoffStrategy: nil,
 		Workers:         0,
@@ -114,7 +115,7 @@ func NewController(appCtx context.Context, config *conf.ViharaConfig) (*Controll
 		},
 	})
 
-	ctrl.jobRec = reconcile.NewKubeInformerReconciler(appCtx, ctrl.jobInformer, reconcile.Options{
+	ctrl.jobRec = kubehelper.NewKubeInformerReconciler(appCtx, ctrl.jobInformer, reconcile.Options{
 		Logger:          ctrl.Log.WithName("rec:job"),
 		BackoffStrategy: nil,
 		Workers:         0,
@@ -159,9 +160,9 @@ type Controller struct {
 
 	cacheSyncWaitFuncs []kubecache.InformerSynced
 
-	mtRec    *reconcile.KubeInformerReconciler
-	mtJobRec *reconcile.KubeInformerReconciler
-	jobRec   *reconcile.KubeInformerReconciler
+	mtRec    *kubehelper.KubeInformerReconciler
+	mtJobRec *kubehelper.KubeInformerReconciler
+	jobRec   *kubehelper.KubeInformerReconciler
 }
 
 func (c *Controller) Start() error {

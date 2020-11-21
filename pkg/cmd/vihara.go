@@ -18,7 +18,9 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -104,12 +106,36 @@ func run(appCtx context.Context, config *conf.ViharaConfig) error {
 		return fmt.Errorf("failed to create kube client from kubeconfig: %w", err)
 	}
 
-	if err = config.Vihara.Metrics.RegisterIfEnabled(appCtx, logger); err != nil {
+	var metricsHandler http.Handler
+	if _, metricsHandler, err = config.Vihara.Metrics.CreateIfEnabled(true); err != nil {
 		logger.E("failed to register metrics controller", log.Error(err))
 		return err
 	}
 
-	if err = config.Vihara.Tracing.RegisterIfEnabled(appCtx, logger); err != nil {
+	if metricsHandler != nil {
+		mux := http.NewServeMux()
+		mux.Handle(config.Vihara.Metrics.HTTPPath, metricsHandler)
+
+		tlsConfig, err2 := config.Vihara.Metrics.TLS.GetTLSConfig(true)
+		if err2 != nil {
+			return fmt.Errorf("failed to get tls config for metrics listener: %w", err2)
+		}
+
+		srv := &http.Server{
+			Handler:   mux,
+			Addr:      config.Vihara.Metrics.Endpoint,
+			TLSConfig: tlsConfig,
+		}
+
+		go func() {
+			err2 = srv.ListenAndServe()
+			if err2 != nil && !errors.Is(err2, http.ErrServerClosed) {
+				panic(err2)
+			}
+		}()
+	}
+
+	if _, err = config.Vihara.Tracing.CreateIfEnabled(true, nil); err != nil {
 		logger.E("failed to register tracing controller")
 		return err
 	}
