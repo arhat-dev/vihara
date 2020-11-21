@@ -108,8 +108,7 @@ func run(appCtx context.Context, config *conf.ViharaConfig) error {
 
 	var metricsHandler http.Handler
 	if _, metricsHandler, err = config.Vihara.Metrics.CreateIfEnabled(true); err != nil {
-		logger.E("failed to register metrics controller", log.Error(err))
-		return err
+		return fmt.Errorf("failed to create metrics provider: %w", err)
 	}
 
 	if metricsHandler != nil {
@@ -136,8 +135,7 @@ func run(appCtx context.Context, config *conf.ViharaConfig) error {
 	}
 
 	if _, err = config.Vihara.Tracing.CreateIfEnabled(true, nil); err != nil {
-		logger.E("failed to register tracing controller")
-		return err
+		return fmt.Errorf("failed to create tracing provider: %w", err)
 	}
 
 	evb := record.NewBroadcaster()
